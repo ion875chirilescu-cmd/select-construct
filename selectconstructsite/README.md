@@ -82,7 +82,6 @@ Formularul de contact va folosi varianta cu e-mail, pentru că funcțiile din
 | Servicii | `#servicii` | 9 servicii de interior, fiecare cu lista lucrărilor incluse |
 | Cum lucrăm | `#proces` | Procesul în 4 pași, de la vizită la garanție |
 | De ce noi | `#despre` | Diferențiatori + cifre-cheie |
-| Lucrări | `#lucrari` | Galerie filtrabilă pe categorii + comparație „înainte / după" |
 | Estimare preț | `#calculator` | Calculator interactiv de manoperă (tip lucrare × mp × finisaj) |
 | Întrebări | `#intrebari` | 7 întrebări frecvente (accordion nativ `<details>`) |
 | Contact | `#contact` | Formular validat + date de contact |
@@ -100,40 +99,30 @@ Toate datele de mai jos sunt **exemple** și trebuie înlocuite cu cele reale:
    în linkurile de Viber și WhatsApp și în `schema.org`).
 2. **E-mail** — caută `contact@selectconstruct.md` în `index.html` și în
    `CONFIG.email` din `assets/js/main.js`.
-3. **Adresă, program, IDNO** — în secțiunea de contact, în footer și în blocul
+3. **Adresa sediului și IDNO** — au fost scoase din pagină cât timp nu există
+   date reale (rămăseseră „str. Exemplu 10" și un IDNO de zerouri). Când le ai,
+   se adaugă în secțiunea de contact, în footer și în blocul
    `application/ld+json` din `<head>`.
 4. **Domeniu** — `https://www.selectconstruct.md/` din `<link rel="canonical">`
    și din marcajele Open Graph.
-5. **Cifre și lucrări** — din statisticile hero (`data-count`), „4 oameni în echipă"
-   și „5 ani de experiență" sunt reale. „75 lucrări finalizate" și „98% clienți
-   mulțumiți" sunt estimări puse ca să fie credibile pentru patru oameni în cinci ani —
-   înlocuiește-le cu cifrele tale. Lucrările din portofoliu sunt tot exemple.
+5. **Cifre** — în hero au rămas doar cele reale: „5 ani de experiență" și
+   „4 oameni în echipă". „Lucrări finalizate" și „clienți mulțumiți" au fost
+   scoase; se pot readăuga în `.stats` când există cifre adevărate.
 
-### Fotografii reale în portofoliu
+### Secțiuni scoase temporar (până există fotografii reale)
 
-Miniaturile din galerie sunt modele grafice desenate în CSS
-(clasele `.pattern-tiles`, `.pattern-parquet`, `.pattern-paint` etc.), ca site-ul
-să arate bine și fără poze. **Direcția vizuală întunecată trăiește însă din
-fotografii** — sunt singurul element luminos din pagină, deci ele fac diferența
-între „arată bine" și „arată ca al unei firme serioase".
+Secțiunea **Lucrări** (`#lucrari`) — galeria filtrabilă și comparatorul
+„înainte / după" — a fost scoasă din `index.html` cât timp nu există nicio
+fotografie reală: galeria arăta doar modele desenate în CSS, iar comparatorul
+folosea ilustrații, ceea ce putea induce în eroare. Codul complet există în
+istoricul git (înainte de commitul care a scos secțiunea) și poate fi readus
+când sunt gata pozele: `renovare-completa.jpg`, `baie.jpg`, `bucatarie.jpg`,
+`zugraveli.jpg`, `gips-carton.jpg`, `parchet.jpg` în `assets/img/lucrari/`,
+plus două fotografii „înainte / după" din aceeași încăpere.
 
-Slot-urile pentru fotografii sunt **deja pregătite în pagină**. Ca să adaugi o
-poză, o copiezi în `assets/img/lucrari/` cu numele așteptat — atât. Nu se
-modifică nici HTML-ul, nici CSS-ul.
-
-Lista completă de nume e în [`assets/img/lucrari/README.md`](assets/img/lucrari/README.md):
-`hero.webp` (pusă deja), plus `renovare-completa.jpg`, `baie.jpg`,
-`bucatarie.jpg`, `zugraveli.jpg`, `gips-carton.jpg`, `parchet.jpg`.
-
-Fotografia din cap de pagină poate fi **verticală**: slotul ei trece pe raport
-3:4 pe ecran lat și pe 4:3 pe telefon, ca o poză de interior fotografiată în
-picioare să nu-și piardă înălțimea. Miniaturile din galerie rămân orizontale.
-
-Mecanismul: fiecare miniatură are un model desenat în CSS și, deasupra lui, o
-fotografie pre-legată, ascunsă. La încărcarea paginii, `initPhotos()` din
-`main.js` verifică fiecare imagine — dacă fișierul există, o arată; dacă
-lipsește, scoate elementul și rămâne modelul. Așa site-ul arată bine în orice
-stadiu, iar pozele se pot adăuga una câte una, pe măsură ce le ai.
+Fotografia din cap de pagină (`hero.webp`, pusă deja) poate fi **verticală**:
+slotul ei trece pe raport 3:4 pe ecran lat și pe 4:3 pe telefon, ca o poză de
+interior fotografiată în picioare să nu-și piardă înălțimea.
 
 **Comparația înainte/după** rămâne pe desene până ai două fotografii ale
 **aceleiași camere**, din același loc și unghi. Două poze diferite nu

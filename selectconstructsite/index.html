@@ -49,7 +49,6 @@
   "url": "https://www.selectconstruct.md/",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "str. Exemplu 10",
     "addressLocality": "Chișinău",
     "addressCountry": "MD"
   },
@@ -96,7 +95,6 @@
     <nav class="site-nav" id="site-nav" aria-label="Navigare principală">
       <a href="#servicii">Servicii</a>
       <a href="#proces">Cum lucrăm</a>
-      <a href="#lucrari">Lucrări</a>
       <a href="#calculator">Estimare preț</a>
       <a href="#intrebari">Întrebări</a>
       <a href="#contact">Contact</a>
@@ -216,8 +214,6 @@
     <div class="container">
       <ul class="stats" aria-label="Cifre despre firmă">
         <li><strong data-count="5">5</strong><span>ani de experiență</span></li>
-        <li><strong data-count="75">75</strong><span>lucrări finalizate</span></li>
-        <li><strong data-count="98" data-suffix="%">98%</strong><span>clienți mulțumiți</span></li>
         <li><strong data-count="4">4</strong><span>oameni în echipă</span></li>
       </ul>
     </div>
@@ -453,193 +449,8 @@
     </div>
   </section>
 
-  <!-- ============ LUCRARI ============ -->
-  <section class="section section--soft" id="lucrari">
-    <div class="container">
-      <header class="section-head">
-        <p class="eyebrow"><span class="dot"></span> Lucrări</p>
-        <h2>Ce fel de lucrări facem</h2>
-        <p class="section-sub">Filtrează după tipul de lucrare care te interesează.</p>
-      </header>
-
-      <div class="filters" role="tablist" aria-label="Filtrare lucrări">
-        <button class="chip is-active" type="button" data-filter="toate" role="tab" aria-selected="true">Toate</button>
-        <button class="chip" type="button" data-filter="apartament" role="tab" aria-selected="false">Apartamente</button>
-        <button class="chip" type="button" data-filter="baie" role="tab" aria-selected="false">Băi</button>
-        <button class="chip" type="button" data-filter="bucatarie" role="tab" aria-selected="false">Bucătării</button>
-        <button class="chip" type="button" data-filter="zugravit" role="tab" aria-selected="false">Zugrăveli</button>
-      </div>
-
-      <!-- Fiecare miniatură are un model desenat în CSS și o fotografie opțională.
-           Fotografia apare automat dacă fișierul există în assets/img/lucrari/;
-           dacă lipsește, rămâne modelul. Vezi site/README.md. -->
-      <div class="grid gallery" id="gallery">
-        <figure class="work" data-cat="apartament">
-          <div class="work-img pattern-parquet">
-            <img src="assets/img/lucrari/renovare-completa.jpg" alt="Living de apartament renovat complet" loading="lazy" />
-            <span class="work-tag">Renovare completă</span>
-          </div>
-          <figcaption>
-            <h3>Apartament la cheie</h3>
-            <p>Recompartimentări, instalații noi, finisaje complete • 4–7 săptămâni pentru 2–3 camere</p>
-          </figcaption>
-        </figure>
-
-        <figure class="work" data-cat="baie">
-          <div class="work-img pattern-tiles">
-            <img src="assets/img/lucrari/baie.jpg" alt="Baie modernă cu duș și gresie format mare" loading="lazy" />
-            <span class="work-tag">Baie la cheie</span>
-          </div>
-          <figcaption>
-            <h3>Baie completă</h3>
-            <p>Hidroizolație, gresie format mare, cabină walk-in, mobilier suspendat • 2–3 săptămâni</p>
-          </figcaption>
-        </figure>
-
-        <figure class="work" data-cat="bucatarie">
-          <div class="work-img pattern-grid">
-            <img src="assets/img/lucrari/bucatarie.jpg" alt="Bucătărie modernă cu mobilier și blat de lucru" loading="lazy" />
-            <span class="work-tag">Bucătărie</span>
-          </div>
-          <figcaption>
-            <h3>Bucătărie la cheie</h3>
-            <p>Mutarea instalațiilor, faianță, blat, montaj mobilier și electrocasnice • 2–3 săptămâni</p>
-          </figcaption>
-        </figure>
-
-        <figure class="work" data-cat="zugravit">
-          <div class="work-img pattern-paint">
-            <img src="assets/img/lucrari/zugraveli.jpg" alt="Cameră cu pereți proaspăt zugrăviți" loading="lazy" />
-            <span class="work-tag">Zugrăveli</span>
-          </div>
-          <figcaption>
-            <h3>Zugrăveli și finisaje</h3>
-            <p>Glet fin, amorsă, lavabilă în două straturi, tencuieli decorative • 4–6 zile pentru 2 camere</p>
-          </figcaption>
-        </figure>
-
-        <figure class="work" data-cat="apartament">
-          <div class="work-img pattern-drywall">
-            <img src="assets/img/lucrari/gips-carton.jpg" alt="Tavan fals din gips-carton cu lumină indirectă" loading="lazy" />
-            <span class="work-tag">Gips-carton</span>
-          </div>
-          <figcaption>
-            <h3>Tavane false și pereți</h3>
-            <p>Structură zincată, lumină indirectă, nișe, mascări de instalații • 8–12 zile</p>
-          </figcaption>
-        </figure>
-
-        <figure class="work" data-cat="apartament">
-          <div class="work-img pattern-tiles alt">
-            <img src="assets/img/lucrari/parchet.jpg" alt="Parchet montat într-o cameră de zi" loading="lazy" />
-            <span class="work-tag">Parchet</span>
-          </div>
-          <figcaption>
-            <h3>Parchet și pardoseli</h3>
-            <p>Nivelare suport, izolație fonică, montaj parchet, plinte și praguri • 3–5 zile pentru 50 mp</p>
-          </figcaption>
-        </figure>
-      </div>
-
-      <!-- Înainte / După -->
-      <div class="ba-wrap">
-        <div class="ba-head">
-          <h3>Înainte și după</h3>
-          <p>Trage de cursor ca să vezi diferența.</p>
-        </div>
-        <div class="ba" id="beforeAfter">
-          <div class="ba-layer ba-after">
-            <svg viewBox="0 0 900 386" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Livingul după renovare">
-              <defs>
-                <linearGradient id="afterSky" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#CFE3EE" /><stop offset="100%" stop-color="#A6C9DE" />
-                </linearGradient>
-              </defs>
-              <rect width="900" height="386" fill="#F4EEE4" />
-              <rect y="0" width="900" height="44" fill="#FBF8F3" />
-              <rect y="44" width="900" height="262" fill="#EFE7DA" />
-              <rect x="596" y="44" width="304" height="262" fill="#E3D6C0" />
-              <!-- fereastră -->
-              <rect x="96" y="96" width="176" height="132" rx="4" fill="url(#afterSky)" />
-              <path d="M184 96v132M96 162h176" stroke="#FFF" stroke-width="6" />
-              <rect x="96" y="96" width="176" height="132" rx="4" fill="none" stroke="#FFF" stroke-width="9" />
-              <rect x="112" y="248" width="144" height="34" rx="6" fill="#FBF8F3" />
-              <g stroke="#E6DFD4" stroke-width="4"><path d="M126 252v26M144 252v26M162 252v26M180 252v26M198 252v26M216 252v26M234 252v26" /></g>
-              <!-- tablouri + lampă -->
-              <rect x="648" y="92" width="86" height="64" rx="4" fill="#C9A96A" opacity=".85" />
-              <rect x="754" y="100" width="58" height="56" rx="4" fill="#33465A" opacity=".35" />
-              <path d="M470 44v42" stroke="#33465A" stroke-width="3" />
-              <path d="M446 86h48l-10 26h-28z" fill="#C9A96A" />
-              <!-- canapea -->
-              <rect x="330" y="212" width="252" height="60" rx="14" fill="#33465A" />
-              <rect x="346" y="226" width="106" height="40" rx="10" fill="#42586F" />
-              <rect x="460" y="226" width="106" height="40" rx="10" fill="#42586F" />
-              <rect x="330" y="262" width="252" height="46" rx="12" fill="#2A3A4C" />
-              <!-- plantă -->
-              <path d="M700 268c-18-10-22-32-12-46 15 3 25 22 18 40" fill="#4C9970" />
-              <path d="M708 268c16-13 16-36 4-46-13 7-19 27-10 43" fill="#3E7D5A" />
-              <rect x="686" y="266" width="42" height="12" rx="4" fill="#C4703A" />
-              <path d="M690 278h34l-5 28h-24z" fill="#D97F45" />
-              <!-- plintă + parchet -->
-              <rect y="298" width="900" height="14" fill="#FBF8F3" />
-              <rect y="312" width="900" height="74" fill="#C68A4E" />
-              <g stroke="#A9713C" stroke-width="2" opacity=".6">
-                <path d="M0 336h900M0 360h900" />
-                <path d="M120 312v24M300 312v24M480 312v24M660 312v24M840 312v24M60 336v24M240 336v24M420 336v24M600 336v24M780 336v24M150 360v26M330 360v26M510 360v26M690 360v26M870 360v26" />
-              </g>
-            </svg>
-            <span>DUPĂ</span>
-          </div>
-
-          <div class="ba-layer ba-before" id="baBefore">
-            <svg viewBox="0 0 900 386" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Livingul înainte de renovare">
-              <rect width="900" height="386" fill="#A9A49B" />
-              <rect y="0" width="900" height="44" fill="#B5B0A7" />
-              <rect y="44" width="900" height="262" fill="#A9A49B" />
-              <!-- pete de umezeală și tencuială căzută -->
-              <ellipse cx="700" cy="96" rx="96" ry="46" fill="#8E877C" opacity=".55" />
-              <ellipse cx="770" cy="140" rx="60" ry="30" fill="#7F796F" opacity=".45" />
-              <path d="M300 44c14 26-8 40 4 66s-10 38 2 60" stroke="#7C766D" stroke-width="3" fill="none" />
-              <path d="M312 118l22 10M304 82l-20 8" stroke="#7C766D" stroke-width="3" />
-              <path d="M540 190c10 18-6 28 2 44" stroke="#7C766D" stroke-width="3" fill="none" />
-              <rect x="404" y="150" width="56" height="42" rx="3" fill="#8E877C" />
-              <!-- fereastră veche -->
-              <rect x="96" y="96" width="176" height="132" rx="4" fill="#8E9BA1" />
-              <path d="M184 96v132M96 162h176" stroke="#9A948B" stroke-width="6" />
-              <rect x="96" y="96" width="176" height="132" rx="4" fill="none" stroke="#938D84" stroke-width="9" />
-              <path d="M112 108l58 46M230 112l-38 44" stroke="#B8C2C6" stroke-width="2" />
-              <!-- calorifer vechi + țevi -->
-              <rect x="112" y="248" width="144" height="34" rx="5" fill="#969087" />
-              <g stroke="#847E75" stroke-width="4"><path d="M126 252v26M144 252v26M162 252v26M180 252v26M198 252v26M216 252v26M234 252v26" /></g>
-              <path d="M256 264h48v42" stroke="#8A8479" stroke-width="7" fill="none" />
-              <!-- bec pe fir -->
-              <path d="M470 44v52" stroke="#6F6A62" stroke-width="3" />
-              <circle cx="470" cy="106" r="12" fill="#CFC9BE" />
-              <!-- fire ieșite din perete -->
-              <path d="M640 210c14 6 8 20 20 26M640 210c-4 14 6 18 4 30" stroke="#6F6A62" stroke-width="3" fill="none" />
-              <circle cx="638" cy="208" r="9" fill="#7F796F" />
-              <!-- plintă + parchet uzat -->
-              <rect y="298" width="900" height="14" fill="#8A8479" />
-              <rect y="312" width="900" height="74" fill="#7E7365" />
-              <g stroke="#665C50" stroke-width="2" opacity=".8">
-                <path d="M0 336h900M0 360h900" />
-                <path d="M120 312v24M300 312v24M480 312v24M660 312v24M840 312v24M60 336v24M240 336v24M420 336v24M600 336v24M780 336v24" />
-              </g>
-              <rect x="300" y="336" width="180" height="24" fill="#6B6155" />
-              <rect x="620" y="312" width="120" height="24" fill="#6B6155" opacity=".7" />
-            </svg>
-            <span>ÎNAINTE</span>
-          </div>
-          <div class="ba-handle" id="baHandle" aria-hidden="true"></div>
-          <label class="sr-only" for="baRange">Comparare înainte / după</label>
-          <input class="ba-range" id="baRange" type="range" min="0" max="100" value="50" />
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ============ CALCULATOR ============ -->
-  <section class="section" id="calculator">
+  <section class="section section--soft" id="calculator">
     <div class="container">
       <header class="section-head">
         <p class="eyebrow"><span class="dot"></span> Estimare preț</p>
@@ -709,7 +520,7 @@
   </section>
 
   <!-- ============ FAQ ============ -->
-  <section class="section section--soft" id="intrebari">
+  <section class="section" id="intrebari">
     <div class="container narrow">
       <header class="section-head">
         <p class="eyebrow"><span class="dot"></span> Întrebări frecvente</p>
@@ -791,7 +602,7 @@
           </li>
           <li>
             <span class="ci-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
-            <div><strong>Birou</strong><span>str. Exemplu 10, Chișinău</span></div>
+            <div><strong>Zona de lucru</strong><span>Chișinău și împrejurimi, până la 50 km</span></div>
           </li>
           <li>
             <span class="ci-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
@@ -891,20 +702,10 @@
       <p>Reparații și renovări interioare în Chișinău și împrejurimi. Devize clare, termene respectate, garanție 24 de luni la manoperă.</p>
     </div>
 
-    <nav class="footer-col" aria-label="Servicii">
-      <h3>Servicii</h3>
-      <a href="#servicii">Renovări la cheie</a>
-      <a href="#servicii">Zugrăveli și finisaje</a>
-      <a href="#servicii">Gresie și faianță</a>
-      <a href="#servicii">Parchet și pardoseli</a>
-      <a href="#servicii">Gips-carton</a>
-      <a href="#servicii">Instalații</a>
-    </nav>
-
-    <nav class="footer-col" aria-label="Companie">
-      <h3>Companie</h3>
+    <nav class="footer-col" aria-label="Navigare">
+      <h3>Navigare</h3>
+      <a href="#servicii">Servicii</a>
       <a href="#proces">Cum lucrăm</a>
-      <a href="#lucrari">Lucrări</a>
       <a href="#calculator">Estimare preț</a>
       <a href="#intrebari">Întrebări frecvente</a>
       <a href="#contact">Contact</a>
@@ -914,14 +715,13 @@
       <h3>Contact</h3>
       <a href="tel:+37376986728">076 986 728</a>
       <a href="mailto:contact@selectconstruct.md">contact@selectconstruct.md</a>
-      <span>str. Exemplu 10, Chișinău</span>
+      <span>Chișinău și împrejurimi</span>
       <span>Luni–Vineri 08:00–18:00</span>
     </div>
   </div>
 
   <div class="container footer-bottom">
     <p>© <span id="year">2026</span> SELECT CONSTRUCT SRL. Toate drepturile rezervate.</p>
-    <p>IDNO 1000000000000 · <a href="#intrebari">Termeni</a> · <a href="#contact">Confidențialitate</a></p>
   </div>
 </footer>
 

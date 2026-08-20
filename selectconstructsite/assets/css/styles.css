@@ -396,7 +396,7 @@ p { margin: 0 0 1rem; }
 
 .stats {
   list-style: none; margin: clamp(48px, 6vw, 76px) 0 0; padding: 0;
-  display: grid; grid-template-columns: repeat(4, 1fr);
+  display: grid; grid-template-columns: repeat(2, 1fr);
   border-top: 1px solid var(--line);
 }
 .stats li {
@@ -930,7 +930,7 @@ select {
   letter-spacing: .16em; margin-bottom: 20px;
 }
 .footer-grid {
-  display: grid; grid-template-columns: 1.7fr 1fr 1fr 1.2fr; gap: 40px;
+  display: grid; grid-template-columns: 1.7fr 1fr 1.2fr; gap: 40px;
   padding-bottom: 52px;
 }
 .footer-brand .brand { color: var(--on-panel); margin-bottom: 20px; }
@@ -1001,9 +1001,6 @@ select {
 
 @media (max-width: 860px) {
   .phone-link span { display: none; }
-  .stats { grid-template-columns: repeat(2, 1fr); }
-  .stats li:nth-child(2n) { border-right: 0; }
-  .stats li:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
   .fab { display: grid; }
 }
 
