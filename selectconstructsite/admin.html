@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cereri primite — SELECT CONSTRUCT</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#0E0E0E" />
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="assets/css/fonts.css" />
+<link rel="stylesheet" href="assets/css/styles.css" />
+<script>
+  document.documentElement.setAttribute('data-theme', 'dark');
+</script>
+<style>
+  .admin { padding: 40px 0 80px; }
+  .admin-head {
+    display: flex; flex-wrap: wrap; align-items: baseline;
+    justify-content: space-between; gap: 16px; margin-bottom: 32px;
+  }
+  .admin-head h1 { font-size: clamp(1.6rem, 4vw, 2.2rem); margin: 0; }
+  .admin-count {
+    font-family: var(--font-label); font-size: .72rem;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+  }
+
+  /* `display` scris de noi bate `display:none` pe care atributul `hidden` îl
+     aduce din stilul implicit al browserului — de aceea îl declarăm explicit,
+     altfel formularul de parolă rămâne vizibil peste listă. */
+  [hidden] { display: none !important; }
+
+  .poarta { max-width: 380px; display: grid; gap: 16px; }
+  .poarta p { color: var(--muted); font-size: .94rem; margin: 0; }
+
+  .cereri { display: grid; gap: 14px; }
+  .cerere {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 22px 24px;
+  }
+  .cerere-sus {
+    display: flex; flex-wrap: wrap; align-items: baseline;
+    justify-content: space-between; gap: 10px; margin-bottom: 16px;
+  }
+  .cerere-nume { font-family: var(--font-body); font-weight: 600; font-size: 1.05rem; color: var(--ink); }
+  .cerere-data {
+    font-family: var(--font-label); font-size: .7rem;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+  }
+  .cerere-date { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .cerere-date > div {
+    display: flex; flex-wrap: wrap; gap: 6px 16px;
+    background: var(--surface); padding: 11px 14px;
+  }
+  .cerere-date dt {
+    flex: none; min-width: 92px;
+    font-family: var(--font-label); font-size: .66rem;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  }
+  .cerere-date dd { margin: 0; font-size: .94rem; color: var(--ink-2); }
+  .cerere-date a { color: var(--accent-text); text-decoration: none; font-weight: 500; }
+  .cerere-date a:hover { text-decoration: underline; }
+  .cerere-mesaj { white-space: pre-wrap; }
+
+  .gol, .eroare-admin { color: var(--muted); font-size: .96rem; }
+  .eroare-admin { color: var(--err); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html" aria-label="SELECT CONSTRUCT — înapoi la site">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true">
+        <path d="M48 7 8 31v21h44v36H8" fill="none" stroke="currentColor" stroke-width="8" />
+        <path d="M52 7l40 24v57H56" fill="none" stroke="#C9A96A" stroke-width="8" />
+      </svg>
+      <span class="brand-text">
+        <strong>SELECT</strong>
+        <em>CONSTRUCT</em>
+      </span>
+    </a>
+    <div class="header-actions" style="margin-left:auto">
+      <a class="btn btn-ghost btn-sm" href="index.html">Vezi site-ul</a>
+    </div>
+  </div>
+</header>
+
+<main class="admin">
+  <div class="container">
+    <div class="admin-head">
+      <h1>Cereri primite</h1>
+      <p class="admin-count" id="numar"></p>
+    </div>
+
+    <!-- ecranul de parolă -->
+    <form class="poarta" id="poarta">
+      <p>Introdu parola de administrare ca să vezi cererile trimise prin formular.</p>
+      <div class="field">
+        <label for="parola">Parolă</label>
+        <input id="parola" type="password" autocomplete="current-password" required />
+        <p class="error" id="eroareParola"></p>
+      </div>
+      <button class="btn btn-primary" type="submit">Intră</button>
+    </form>
+
+    <div class="cereri" id="lista" hidden></div>
+    <p class="eroare-admin" id="eroare" hidden></p>
+  </div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var poarta = document.getElementById('poarta');
+  var campParola = document.getElementById('parola');
+  var eroareParola = document.getElementById('eroareParola');
+  var lista = document.getElementById('lista');
+  var numar = document.getElementById('numar');
+  var eroare = document.getElementById('eroare');
+
+  var CHEIE = 'sc-admin';
+
+  function scapa(text) {
+    var d = document.createElement('div');
+    d.textContent = text == null ? '' : String(text);
+    return d.innerHTML;
+  }
+
+  function dataLizibila(iso) {
+    var d = new Date(iso);
+    if (isNaN(d)) return '—';
+    return d.toLocaleString('ro-MD', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+  }
+
+  function rand(eticheta, valoare) {
+    if (!valoare) return '';
+    return '<div><dt>' + eticheta + '</dt><dd>' + valoare + '</dd></div>';
+  }
+
+  function deseneaza(cereri) {
+    poarta.hidden = true;
+    lista.hidden = false;
+    numar.textContent = cereri.length === 1 ? '1 cerere' : cereri.length + ' cereri';
+
+    if (!cereri.length) {
+      lista.innerHTML = '<p class="gol">Nicio cerere încă. Când cineva completează ' +
+                        'formularul de pe site, apare aici.</p>';
+      return;
+    }
+
+    lista.innerHTML = cereri.map(function (c) {
+      var telefonCurat = String(c.telefon || '').replace(/[^\d+]/g, '');
+      return '<article class="cerere">' +
+        '<div class="cerere-sus">' +
+          '<span class="cerere-nume">' + scapa(c.nume) + '</span>' +
+          '<span class="cerere-data">' + dataLizibila(c.creat_la) + '</span>' +
+        '</div>' +
+        '<dl class="cerere-date">' +
+          rand('Telefon', '<a href="tel:' + scapa(telefonCurat) + '">' + scapa(c.telefon) + '</a>') +
+          rand('E-mail', c.email ? '<a href="mailto:' + scapa(c.email) + '">' + scapa(c.email) + '</a>' : '') +
+          rand('Lucrare', scapa(c.lucrare)) +
+          rand('Suprafață', c.suprafata ? scapa(c.suprafata) + ' mp' : '') +
+          rand('Detalii', c.mesaj ? '<span class="cerere-mesaj">' + scapa(c.mesaj) + '</span>' : '') +
+        '</dl>' +
+      '</article>';
+    }).join('');
+  }
+
+  function incarca(parola) {
+    return fetch('/api/cereri', { headers: { 'x-parola': parola } })
+      .then(function (r) {
+        if (r.status === 401) throw new Error('parola');
+        if (!r.ok) throw new Error('server');
+        return r.json();
+      })
+      .then(function (d) {
+        try { sessionStorage.setItem(CHEIE, parola); } catch (e) {}
+        deseneaza(d.cereri || []);
+      });
+  }
+
+  poarta.addEventListener('submit', function (e) {
+    e.preventDefault();
+    eroareParola.textContent = '';
+    var parola = campParola.value;
+    if (!parola) return;
+
+    incarca(parola).catch(function (err) {
+      eroareParola.textContent = err.message === 'parola'
+        ? 'Parolă greșită.'
+        : 'Nu am putut încărca cererile. Încearcă din nou.';
+    });
+  });
+
+  // dacă parola e deja în sesiunea curentă, sărim peste ecranul de intrare
+  var salvata = null;
+  try { salvata = sessionStorage.getItem(CHEIE); } catch (e) {}
+  if (salvata) {
+    incarca(salvata).catch(function () {
+      try { sessionStorage.removeItem(CHEIE); } catch (e) {}
+    });
+  }
+})();
+</script>
+</body>
+</html>

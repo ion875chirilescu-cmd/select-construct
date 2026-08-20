@@ -1,0 +1,10 @@
+{
+  "name": "select-construct-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Site de prezentare SELECT CONSTRUCT — pagini statice plus două funcții pentru formularul de contact",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4"
+  }
+}

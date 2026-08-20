@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# pagina de administrare și funcțiile nu au ce căuta în Google
+Disallow: /admin.html
+Disallow: /api/
+
+Sitemap: https://www.selectconstruct.md/sitemap.xml
