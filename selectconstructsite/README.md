@@ -81,10 +81,9 @@ Formularul de contact va folosi varianta cu e-mail, pentru că funcțiile din
 | Hero | `#top` | Mesaj principal, două CTA-uri și cifrele firmei (animate) |
 | Servicii | `#servicii` | 9 servicii de interior, fiecare cu lista lucrărilor incluse |
 | Cum lucrăm | `#proces` | Procesul în 4 pași, de la vizită la garanție |
-| De ce noi | `#despre` | Diferențiatori + testimonial evidențiat |
+| De ce noi | `#despre` | Diferențiatori + cifre-cheie |
 | Lucrări | `#lucrari` | Galerie filtrabilă pe categorii + comparație „înainte / după" |
 | Estimare preț | `#calculator` | Calculator interactiv de manoperă (tip lucrare × mp × finisaj) |
-| Recenzii | `#recenzii` | Trei recenzii de clienți |
 | Întrebări | `#intrebari` | 7 întrebări frecvente (accordion nativ `<details>`) |
 | Contact | `#contact` | Formular validat + date de contact |
 
@@ -108,7 +107,7 @@ Toate datele de mai jos sunt **exemple** și trebuie înlocuite cu cele reale:
 5. **Cifre și lucrări** — din statisticile hero (`data-count`), „4 oameni în echipă"
    și „5 ani de experiență" sunt reale. „75 lucrări finalizate" și „98% clienți
    mulțumiți" sunt estimări puse ca să fie credibile pentru patru oameni în cinci ani —
-   înlocuiește-le cu cifrele tale. Lucrările din portofoliu și recenziile sunt tot exemple.
+   înlocuiește-le cu cifrele tale. Lucrările din portofoliu sunt tot exemple.
 
 ### Fotografii reale în portofoliu
 

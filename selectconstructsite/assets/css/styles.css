@@ -1018,7 +1018,7 @@ select {
   .cta-actions .btn { flex: 1; }
   .hero-cta .btn { width: 100%; }
   .card, .calc-form, .contact-form, .service { padding: 24px 20px; }
-  .ba { aspect-ratio: 4 / 3; }
+  .ba { aspect-ratio: 4 / 3; min-height: 0; }
 }
 
 /* ---------- 20. PREFERINȚE UTILIZATOR ---------- */
