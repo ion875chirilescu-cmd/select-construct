@@ -97,9 +97,10 @@ Toate datele de mai jos sunt **exemple** și trebuie înlocuite cu cele reale:
 1. **Telefon** — `+37376986728` / `076 986 728` în `index.html`
    (apare în header, în banda CTA, în contact, în footer, în butonul flotant,
    în linkurile de Viber și WhatsApp și în `schema.org`).
-2. **E-mail** — adresa reală, `mchirilescu02@icloud.com`, e pusă în
-   `index.html` și în `CONFIG.email` din `assets/js/main.js`. Dacă se
-   schimbă vreodată, caut-o și înlocuiește-o în ambele fișiere.
+2. **E-mail** — adresa reală, `contactselectconstruct.md@gmail.com`, e pusă în
+   `index.html`, în `CONFIG.email` din `assets/js/main.js` și în
+   `EMAIL_FIRMA` din `api/oferta.js`. Dacă se schimbă vreodată, caut-o și
+   înlocuiește-o în toate trei fișierele.
 3. **Adresa sediului și IDNO** — au fost scoase din pagină cât timp nu există
    date reale (rămăseseră „str. Exemplu 10" și un IDNO de zerouri). Când le ai,
    se adaugă în secțiunea de contact, în footer și în blocul

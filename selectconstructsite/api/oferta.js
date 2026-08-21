@@ -17,7 +17,7 @@ import { neon } from '@neondatabase/serverless';
 
 // Adresa pe care vine înștiințarea. Contul Resend trebuie deschis cu aceeași
 // adresă, altfel serviciul refuză trimiterea cât timp domeniul nu e verificat.
-const EMAIL_FIRMA = 'mchirilescu02@icloud.com';
+const EMAIL_FIRMA = 'contactselectconstruct.md@gmail.com';
 
 // Aceleași opțiuni ca în lista din formular. Orice altceva e respins:
 // nu vrem ca cineva să scrie text arbitrar în câmpul care ajunge în raport.
