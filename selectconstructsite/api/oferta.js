@@ -33,6 +33,32 @@ const TIPURI_LUCRARE = [
   'Altceva'
 ];
 
+/**
+ * Aceeași schemă ca în db/schema.sql. Se aplică automat când tabelul lipsește
+ * (codul Postgres 42P01), ca formularul să meargă și fără pasul manual din
+ * consola Neon. `IF NOT EXISTS` o face inofensivă dacă tabelul există deja.
+ */
+async function creeazaTabelul(sql) {
+  await sql`
+    CREATE TABLE IF NOT EXISTS cereri_oferta (
+      id          bigserial PRIMARY KEY,
+      creat_la    timestamptz NOT NULL DEFAULT now(),
+      nume        text        NOT NULL,
+      telefon     text        NOT NULL,
+      email       text,
+      lucrare     text        NOT NULL,
+      suprafata   integer,
+      mesaj       text,
+      user_agent  text
+    )`;
+  await sql`
+    CREATE INDEX IF NOT EXISTS cereri_oferta_creat_la_idx
+      ON cereri_oferta (creat_la DESC)`;
+  await sql`
+    CREATE INDEX IF NOT EXISTS cereri_oferta_telefon_idx
+      ON cereri_oferta (telefon, creat_la DESC)`;
+}
+
 // mobil (06x, 07x) și fix Chișinău (022), local sau internațional cu +373
 const TELEFON = /^(\+?373[\s.-]?|0)(6\d|7[6-9]|22)[\s.-]?\d{3}[\s.-]?\d{3}$/;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
@@ -145,11 +171,18 @@ export default async function handler(req, res) {
 
     // Un buton apăsat de două ori, sau un robot insistent, nu trebuie să
     // umple tabelul cu aceeași cerere.
-    const recente = await sql`
-      SELECT 1 FROM cereri_oferta
-      WHERE telefon = ${telefon}
-        AND creat_la > now() - interval '60 seconds'
-      LIMIT 1`;
+    let recente;
+    try {
+      recente = await sql`
+        SELECT 1 FROM cereri_oferta
+        WHERE telefon = ${telefon}
+          AND creat_la > now() - interval '60 seconds'
+        LIMIT 1`;
+    } catch (e) {
+      if (e.code !== '42P01') throw e;
+      await creeazaTabelul(sql);
+      recente = [];
+    }
 
     if (recente.length > 0) {
       return res.status(429).json({

@@ -174,7 +174,13 @@
     return fetch('/api/cereri', { headers: { 'x-parola': parola } })
       .then(function (r) {
         if (r.status === 401) throw new Error('parola');
-        if (!r.ok) throw new Error('server');
+        if (!r.ok) {
+          // Serverul spune de obicei și de ce a eșuat; arătăm motivul lui,
+          // nu doar un mesaj generic.
+          return r.json()
+            .catch(function () { return {}; })
+            .then(function (d) { throw new Error(d.eroare ? 'server:' + d.eroare : 'server'); });
+        }
         return r.json();
       })
       .then(function (d) {
@@ -192,7 +198,9 @@
     incarca(parola).catch(function (err) {
       eroareParola.textContent = err.message === 'parola'
         ? 'Parolă greșită.'
-        : 'Nu am putut încărca cererile. Încearcă din nou.';
+        : err.message.indexOf('server:') === 0
+          ? err.message.slice(7) + ' Încearcă din nou.'
+          : 'Nu am putut încărca cererile. Încearcă din nou.';
     });
   });
 
