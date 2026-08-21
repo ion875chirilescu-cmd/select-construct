@@ -10,7 +10,7 @@
      ------------------------------------------------------------------ */
   var CONFIG = {
     // Adresa pe care ajung solicitările din formular (metoda implicită: mailto).
-    email: 'contact@selectconstruct.md',
+    email: 'mchirilescu02@icloud.com',
 
     // Numărul afișat în mesajele formularului (eroare de trimitere, exemplu de format).
     phone: '076 986 728',
