@@ -12,6 +12,11 @@
  * Opționale, pentru înștiințarea prin e-mail la fiecare cerere nouă:
  *   RESEND_API_KEY — cheia de la resend.com; cât lipsește, e-mailul e sărit
  *   NOTIFY_EMAIL   — destinatarul; implicit, adresa firmei de mai jos
+ *
+ * Opționale, pentru înștiințarea pe Telegram la fiecare cerere nouă:
+ *   TELEGRAM_BOT_TOKEN — cheia botului, de la @BotFather
+ *   TELEGRAM_CHAT_ID   — discuția în care scrie botul; cât lipsește vreuna
+ *                        dintre ele, Telegramul e sărit
  */
 import { neon } from '@neondatabase/serverless';
 
@@ -122,6 +127,43 @@ async function trimiteInstiintare(cerere) {
   }
 }
 
+/**
+ * Trimite cererea pe Telegram, prin API-ul HTTP al botului. Fără cele două
+ * variabile de mediu nu face nimic; un eșec doar se consemnează în jurnal —
+ * cererea e deja salvată în baza de date, deci nu se pierde.
+ */
+async function trimitePeTelegram(cerere) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chat = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chat) return;
+
+  // Text simplu, fără formatare: așa conținutul scris de vizitator rămâne
+  // doar text și nu poate păcăli interpretarea mesajului.
+  const text =
+    '🔔 Cerere nouă de pe selectconstruct.md\n\n' +
+    'Nume: ' + cerere.nume + '\n' +
+    'Telefon: ' + cerere.telefon + '\n' +
+    'E-mail: ' + (cerere.email || '—') + '\n' +
+    'Lucrare: ' + cerere.lucrare + '\n' +
+    'Suprafață: ' + (cerere.suprafata ? cerere.suprafata + ' mp' : '—') + '\n' +
+    'Mesaj: ' + (cerere.mesaj || '—') + '\n\n' +
+    'Toate cererile: https://www.selectconstruct.md/admin.html';
+
+  try {
+    const raspuns = await fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chat, text: text })
+    });
+
+    if (!raspuns.ok) {
+      console.error('Înștiințarea pe Telegram a eșuat:', raspuns.status, await raspuns.text());
+    }
+  } catch (e) {
+    console.error('Înștiințarea pe Telegram a eșuat:', e.message);
+  }
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
@@ -201,9 +243,11 @@ export default async function handler(req, res) {
       )`;
 
     // Abia după ce cererea e în siguranță în baza de date. Așteptăm
-    // trimiterea (altfel funcția s-ar putea închide înaintea ei), dar un
-    // eșec aici nu mai privește vizitatorul.
-    await trimiteInstiintare({ nume, telefon, email, lucrare, suprafata, mesaj });
+    // trimiterile (altfel funcția s-ar putea închide înaintea lor), dar un
+    // eșec aici nu mai privește vizitatorul. Merg în paralel: sunt canale
+    // independente, iar căderea unuia nu o oprește pe a celuilalt.
+    const cerere = { nume, telefon, email, lucrare, suprafata, mesaj };
+    await Promise.all([trimiteInstiintare(cerere), trimitePeTelegram(cerere)]);
 
     return res.status(200).json({ ok: true });
   } catch (e) {
