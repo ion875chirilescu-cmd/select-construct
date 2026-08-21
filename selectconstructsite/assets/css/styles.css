@@ -975,7 +975,14 @@ select {
 
 @media (max-width: 1024px) {
   .hero-inner { grid-template-columns: 1fr; }
-  .hero-visual { order: -1; max-width: 560px; }
+
+  /* Pe o singură coloană, butoanele trebuie să se vadă fără derulare:
+     titlu → butoane → restul textului, iar fotografia coboară după text. */
+  .hero-visual { max-width: 560px; }
+  .hero-copy { display: flex; flex-direction: column; align-items: stretch; }
+  .hero-copy .eyebrow { order: -3; }
+  .hero-copy h1 { order: -2; }
+  .hero-copy .hero-cta { order: -1; margin: 0 0 30px; }
   .hero-photo.is-ready { aspect-ratio: 4 / 3; }
   .split, .split--form, .calc { grid-template-columns: 1fr; }
   .calc-result { position: static; }
