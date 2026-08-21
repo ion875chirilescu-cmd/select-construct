@@ -8,8 +8,16 @@
  *
  * Variabile de mediu necesare (Vercel → Settings → Environment Variables):
  *   DATABASE_URL — șirul de conexiune Neon (cel „pooled")
+ *
+ * Opționale, pentru înștiințarea prin e-mail la fiecare cerere nouă:
+ *   RESEND_API_KEY — cheia de la resend.com; cât lipsește, e-mailul e sărit
+ *   NOTIFY_EMAIL   — destinatarul; implicit, adresa firmei de mai jos
  */
 import { neon } from '@neondatabase/serverless';
+
+// Adresa pe care vine înștiințarea. Contul Resend trebuie deschis cu aceeași
+// adresă, altfel serviciul refuză trimiterea cât timp domeniul nu e verificat.
+const EMAIL_FIRMA = 'mchirilescu02@icloud.com';
 
 // Aceleași opțiuni ca în lista din formular. Orice altceva e respins:
 // nu vrem ca cineva să scrie text arbitrar în câmpul care ajunge în raport.
@@ -31,6 +39,61 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
 
 function curata(valoare, maxim) {
   return typeof valoare === 'string' ? valoare.trim().slice(0, maxim) : '';
+}
+
+// Textul vine de la vizitator, deci îl vărsăm în HTML doar după ce îi
+// dezarmăm caracterele speciale — altfel un mesaj ar putea injecta cod
+// în e-mailul citit de administrator.
+function scapaHtml(text) {
+  return String(text)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+/**
+ * Trimite înștiințarea prin e-mail, prin API-ul HTTP al serviciului Resend.
+ * Fără RESEND_API_KEY nu face nimic; orice eșec doar se consemnează în
+ * jurnal — cererea e deja salvată în baza de date, deci nu se pierde.
+ */
+async function trimiteInstiintare(cerere) {
+  if (!process.env.RESEND_API_KEY) return;
+
+  const randuri = [
+    ['Nume', cerere.nume],
+    ['Telefon', cerere.telefon],
+    ['E-mail', cerere.email || '—'],
+    ['Lucrare', cerere.lucrare],
+    ['Suprafață', cerere.suprafata ? cerere.suprafata + ' mp' : '—'],
+    ['Mesaj', cerere.mesaj || '—']
+  ].map(function (r) {
+    return '<tr><td style="padding:4px 12px 4px 0;color:#666;white-space:nowrap;vertical-align:top">' +
+      r[0] + '</td><td style="padding:4px 0">' + scapaHtml(r[1]) + '</td></tr>';
+  }).join('');
+
+  try {
+    const raspuns = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + process.env.RESEND_API_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: 'SELECT CONSTRUCT <onboarding@resend.dev>',
+        to: [process.env.NOTIFY_EMAIL || EMAIL_FIRMA],
+        subject: 'Cerere nouă de ofertă — ' + cerere.nume + ' (' + cerere.lucrare + ')',
+        html: '<h2 style="font-weight:600">Cerere nouă de pe selectconstruct.md</h2>' +
+          '<table style="font-size:15px;line-height:1.5">' + randuri + '</table>' +
+          '<p style="color:#666;font-size:13px">Toate cererile: ' +
+          '<a href="https://www.selectconstruct.md/admin.html">pagina de administrare</a></p>'
+      })
+    });
+
+    if (!raspuns.ok) {
+      console.error('Înștiințarea prin e-mail a eșuat:', raspuns.status, await raspuns.text());
+    }
+  } catch (e) {
+    console.error('Înștiințarea prin e-mail a eșuat:', e.message);
+  }
 }
 
 export default async function handler(req, res) {
@@ -103,6 +166,11 @@ export default async function handler(req, res) {
         ${suprafata}, ${mesaj || null},
         ${curata(req.headers['user-agent'], 400) || null}
       )`;
+
+    // Abia după ce cererea e în siguranță în baza de date. Așteptăm
+    // trimiterea (altfel funcția s-ar putea închide înaintea ei), dar un
+    // eșec aici nu mai privește vizitatorul.
+    await trimiteInstiintare({ nume, telefon, email, lucrare, suprafata, mesaj });
 
     return res.status(200).json({ ok: true });
   } catch (e) {
