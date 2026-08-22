@@ -430,6 +430,17 @@ p { margin: 0 0 1rem; }
   transition: background .22s;
 }
 .service:hover { background: var(--surface); }
+
+/* serviciul pe care se concentrează firma: chenar auriu + etichetă în colț */
+.service--principal { position: relative; border-color: var(--accent); }
+.service-tag {
+  position: absolute; top: 0; right: 0;
+  font-family: var(--font-label); font-size: .6rem; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--accent-ink); background: var(--accent);
+  padding: 5px 11px 4px;
+  border-bottom-left-radius: var(--radius-sm);
+}
 .service-icon {
   display: grid; place-items: center;
   width: 44px; height: 44px; margin-bottom: 22px;
