@@ -866,6 +866,9 @@ input[type="range"]::-moz-range-thumb {
   font-family: var(--font-label); font-size: .66rem; font-weight: 500;
   text-transform: uppercase; letter-spacing: .14em; color: var(--muted);
 }
+/* adresa de e-mail e un singur cuvânt lung; fără voie de rupere, pe
+   ecranele mici împinge pagina în lateral */
+.contact-list a, .footer-col a { overflow-wrap: anywhere; }
 .contact-list a { color: var(--ink); text-decoration: none; font-weight: 500; }
 .contact-list a:hover { color: var(--accent-text); }
 
@@ -958,6 +961,11 @@ select {
   background: var(--accent); color: var(--accent-ink);
 }
 .fab svg { width: 23px; height: 23px; fill: currentColor; }
+
+/* WhatsApp stă deasupra butonului de apel; verdele oficial e păstrat ca să
+   fie recunoscut dintr-o privire, iar iconița întunecată ține contrastul. */
+.fab--whatsapp { bottom: 84px; background: #25D366; color: #0E0E0E; }
+.fab--whatsapp svg { width: 26px; height: 26px; }
 
 /* ---------- 18. APARIȚIE LA DERULARE ---------- */
 .reveal {
